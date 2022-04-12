@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/rubumo/core/internal/pb;pb";
+
+message Application {
+    string id = 1;
+    repeated Environment environments = 2;
+}
+
+message Environment {
+    string code = 1;
+    string name = 2;
+    string domain = 3;
+    bool is_development = 4;
+    repeated Localization localizations = 5;
+}
+
+message Localization {
+    string name = 1;
+    string lang = 2;
+}
+
+message CreateApplicationRequest {
+    string name = 1;
+    string domain = 2;
+    string primary_language = 3;
+}
+
+message AddEnvironmentRequest {
+    string application_id = 1;
+    string code = 2;
+    string name = 3;
+    string domain = 4;
+    bool is_development = 5;
+    repeated Localization localizations = 6;
+}
+
+message ReadApplicationRequest {
+    string application_id = 1;
+}
+
+message DeleteApplicationRequest {
+    string application_id = 1;
+}
+
+message ListApplicationRequest {}
+
+message Result {}
+
+message ValidateApplicationDomainRequest {
+    string domain = 1;
+}
+
+message ValidateApplicationDomainResponse {
+    bool valid = 1;
+}
+
+service ApplicationService {
+    rpc ValidateApplicationDomain(ValidateApplicationDomainRequest) returns (ValidateApplicationDomainResponse) {};
+    rpc CreateApplication(CreateApplicationRequest) returns (Application) {};
+}

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/rubumo/core/internal/pb;pb";
+
+message SignWithGoogleRequest {
+    string refresh_token = 1;
+}
+
+message SignWithAuthTokenRequest {
+    string token = 1;
+}
+
+message SignInResponse {}
+
+message MeRequest {
+    string refresh_token = 1;
+}
+
+message MeResponse {
+    string application = 1;
+    string redirect = 2;
+}
+
+service AuthService {
+    rpc SignWithAuthToken(SignWithAuthTokenRequest) returns (SignInResponse) {};
+    rpc SignWithGoogle(SignWithGoogleRequest) returns (SignInResponse) {};
+    rpc Me(MeRequest) returns (MeResponse) {};
+}

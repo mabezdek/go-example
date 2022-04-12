@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/rubumo/core/internal/pb;pb";
+
+import "application.proto";
+
+message CreateWorkspaceRequest {
+    string name = 1;
+    string domain = 2;
+}
+
+message ValidateWorkspaceDomainRequest {
+    string domain = 1;
+}
+
+message InitWorkspaceRequest {
+    string domain = 1;
+}
+
+message Workspace {
+    string id = 1;
+    string name = 2;
+    string domain = 3;
+    repeated Application applications = 4;
+}
+
+message ValidateWorkspaceDomainResponse {
+    bool valid = 1;
+}
+
+service WorkspaceService {
+    rpc ValidateWorkspaceDomain(ValidateWorkspaceDomainRequest) returns (ValidateWorkspaceDomainResponse) {};
+    rpc CreateWorkspace(CreateWorkspaceRequest) returns (Workspace) {};
+    rpc InitWorkspace(InitWorkspaceRequest) returns (Workspace) {};
+}
